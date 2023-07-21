@@ -1,33 +1,32 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { CarService } from './car.service';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateCarDto } from './dto/create-car-dto';
 import { UpdateCarDto } from './dto/update-car-dto';
+import { SuccessResponseCar } from './dto/responses/responses-car-dto';
 
 @ApiTags('car')
 @Controller('car')
 export class CarController {
   constructor(private readonly appService: CarService) {}
 
-  @Get('wolks')
-  getCarWolks(): string {
-    return this.appService.getCarWolks();
+  @ApiResponse({type: SuccessResponseCar, isArray: true})
+  @Get(':model')
+  findByModel(@Param('model') model : string,) {
+    return this.appService.findByModel(model);
   }
 
-  @Get('fusca')
-  getCarFusca(): string {
-    return this.appService.getCarFusca();
-  }
-
+  @ApiResponse({type: SuccessResponseCar, isArray: true})
   @Get()
   findAll(){
     return this.appService.findAll();
   }
-
+  @ApiResponse({type: SuccessResponseCar})
   @Get(':id')
   findOne(@Param('id') id : string,) {
     return this.appService.findOne(+id);
   }
+  
 
   @Post()
   create(@Body() createCarDto : CreateCarDto) {

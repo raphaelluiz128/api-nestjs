@@ -12,17 +12,15 @@ export class CarService {
     private carRepository: Repository<Car>,
   ) {}
 
-  getCarFusca(): string {
-    return 'Fusca!';
-  }
-  getCarWolks(): string {
-    return 'Wolks';
-  }
   create(createCarDto: CreateCarDto) {
     return this.carRepository.save(createCarDto);
   }
   findOne(id: number){
     return this.carRepository.findOne({ where: { id } });  
+  }
+
+  findByModel(model: string){
+    return this.carRepository.find({ where: { model } });  
   }
 
   findAll(){
